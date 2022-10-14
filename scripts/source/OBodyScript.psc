@@ -1,30 +1,12 @@
 ScriptName OBodyScript extends Quest
 
-import outils 
+import outils
 
-bool Property ORefitEnabled
-	bool Function Get()
-		Return (Game.GetFormFromFile(0x001802, "OBody.esp") as GlobalVariable).GetValueInt() == 1
-	EndFunction
-EndProperty
+bool Property ORefitEnabled auto
+bool Property NippleRandEnabled auto
+bool Property GenitalRandEnabled auto
 
-bool Property NippleRandEnabled
-	bool Function Get()
-		Return (Game.GetFormFromFile(0x001803, "OBody.esp") as GlobalVariable).GetValueInt() == 1
-	EndFunction
-EndProperty
-
-bool Property GenitalRandEnabled
-	bool Function Get()
-		Return (Game.GetFormFromFile(0x001804, "OBody.esp") as GlobalVariable).GetValueInt() == 1
-	EndFunction
-EndProperty
-
-int Property PresetKey
-	int Function Get()
-		Return (Game.GetFormFromFile(0x001805, "OBody.esp") as GlobalVariable).GetValueInt()
-	EndFunction
-EndProperty
+int Property PresetKey auto
 
 Actor PlayerRef
 
@@ -40,6 +22,7 @@ Actor Property TargetOrPlayer
 	EndFunction
 EndProperty
 
+
 Event OnInit()
 	PlayerRef = Game.GetPlayer()
 	Int femaleSize = OBodyNative.GetFemaleDatabaseSize()
@@ -52,6 +35,7 @@ Event OnInit()
 	OnLoad()
 EndEvent
 
+
 Function OnLoad()
 	RegisterForKey(PresetKey)
 	OBodyNative.SetORefit(ORefitEnabled)
@@ -59,9 +43,22 @@ Function OnLoad()
 	OBodyNative.SetGenitalRand(GenitalRandEnabled)
 EndFunction
 
+
+Function updatePresetKey(int previousKey)
+	UnregisterForKey(previousKey)
+	RegisterForKey(PresetKey)
+EndFunction
+
+
+int Function GetAPIVersion()
+	return 2
+endfunction 
+
+
 Event OnGameLoad()
 	OnLoad()
 EndEvent
+
 
 Event OnKeyDown(int KeyPress)
 	If outils.MenuOpen()
@@ -72,6 +69,7 @@ Event OnKeyDown(int KeyPress)
 		ShowPresetMenu(TargetOrPlayer)
 	endif
 EndEvent
+
 
 Function ShowPresetMenu(Actor act)
 	Debug.Notification("Editing " + act.GetDisplayName())
@@ -88,7 +86,6 @@ Function ShowPresetMenu(Actor act)
 	int pagesNeeded
 	If l > 125
 		pagesNeeded = (l / 125) + 1
-		;Console("Pages needed: " + pagesNeeded)
 
 		int i = 0
 		While i < pagesNeeded
@@ -130,5 +127,9 @@ Function ShowPresetMenu(Actor act)
 	If !(num < 1)
 		OBodyNative.ApplyPresetByName(act, result)
 		Console("Applying: " + result)
+
+		int me = ModEvent.Create("obody_manualchange")
+		ModEvent.PushForm(me, act)
+		ModEvent.Send(me)
 	EndIf
 EndFunction
