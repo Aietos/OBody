@@ -23,6 +23,11 @@ Actor Property TargetOrPlayer
 EndProperty
 
 
+obodyscript Function Get() Global
+	return GetFormFromFile(0x1800, "OBody.esp") as OBodyScript
+EndFunction
+
+
 Event OnInit()
 	PlayerRef = Game.GetPlayer()
 	Int femaleSize = OBodyNative.GetFemaleDatabaseSize()
