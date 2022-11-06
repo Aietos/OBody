@@ -6,5 +6,7 @@ This version of OBody contains a DLL file which was compiled with CommonLibSSE N
 
 For the SKSE C++ source code used to build the DLL file, [click here](https://github.com/Aietos/OBody-NG).
 
+For the Papyrus code for OBody Standalone version, [click here](https://github.com/Aietos/OBody-Standalone-NG).
+
 # Credits
 [expired6978](https://www.nexusmods.com/skyrimspecialedition/users/2950481) for [UIExtensions](https://www.nexusmods.com/skyrimspecialedition/mods/17561) and whose scripts are included in the Dependencies folder to be able to compile OBody.
