@@ -8,31 +8,29 @@
     Zip="true">
     <Variables>
         <Variable Name="ModName" Value="OBody NG"/>
-        <Variable Name="Version" Value="2.1.0"/>
+        <Variable Name="Version" Value="4.0.0"/>
         <Variable Name="MyProject" Value="."/>
         <Variable Name="Dist" Value="..\dist"/>
     </Variables>
     <Imports>
         <Import>Dependencies</Import>
-        <Import>@MyProject\Scripts\Source</Import>
+        <Import>@MyProject\Source\Scripts</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/jcontainersse/source</Import>
         <Import>https://github.com/eeveelo/PapyrusUtil/tree/master/Scripts/Source</Import>
         <Import>https://github.com/VersuchDrei/ConsoleUtilSSE/tree/master/papyrus</Import>
-        <Import>https://github.com/VersuchDrei/OStim/tree/main/Scripts/Source</Import>
-        <Import>https://github.com/CE0/OSA-SE/tree/master/Data/Scripts/Source</Import>
         <Import>https://github.com/Osmosis-Wrench/racemenu-scripts/tree/main/scripts/source</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/skyui/source</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/skse64/source</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/sse/source</Import>
-        <Import>https://github.com/ersh1/Precision/tree/main/scripts/source</Import>
     </Imports>
     <Folders>
-        <Folder>@MyProject\Scripts\Source</Folder>
+        <Folder>@MyProject\Source\Scripts</Folder>
     </Folders>
     <ZipFiles Output="@Dist">
         <ZipFile Name="@ModName - @Version" RootDir="@MyProject" Compression="deflate">
         	<Include NoRecurse="true">*.esp</Include>
             <Include>Scripts</Include>
+            <Include>Source</Include>
             <Include>SKSE</Include>
             <Include>Interface</Include>
         </ZipFile>

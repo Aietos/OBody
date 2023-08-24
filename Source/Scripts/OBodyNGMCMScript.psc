@@ -1,13 +1,15 @@
-Scriptname OBodyMCMScript extends SKI_ConfigBase
+Scriptname OBodyNGMCMScript extends SKI_ConfigBase
 
 ; Settings
 int setORefit
 int setNippleRandomization
 int setGenitalRandomization
 int setPresetListKey
+int setResetBodyDistribution
+int setResetActor
 
 
-OBodyScript property OBody auto
+OBodyNGScript property OBody auto
 
 
 event OnInit()
@@ -29,6 +31,20 @@ event OnPageReset(string page)
 	setNippleRandomization = AddToggleOption("$obody_option_nipple", OBody.NippleRandEnabled)
 	setGenitalRandomization = AddToggleOption("$obody_option_genitals", OBody.GenitalRandEnabled)
 	setPresetListKey = AddKeyMapOption("$obody_option_preset_key", OBody.PresetKey)
+
+	AddEmptyOption()
+
+	setResetBodyDistribution = AddToggleOption("$obody_option_reset_distribution", false)
+
+	AddEmptyOption()
+
+	Actor actorInCrosshair = Game.GetCurrentCrosshairRef() as Actor
+
+	if actorInCrosshair == none
+		actorInCrosshair = OBody.PlayerRef
+	endif
+
+	setResetActor = AddTextOption("$obody_option_reset_actor", actorInCrosshair.GetActorBase().GetName())
 endEvent
 
 
@@ -42,6 +58,28 @@ event OnOptionSelect(int option)
 	elseif (option == setGenitalRandomization)
 		OBody.GenitalRandEnabled = !OBody.GenitalRandEnabled
 		SetToggleOptionValue(setGenitalRandomization, OBody.GenitalRandEnabled)
+	elseif (option == setResetBodyDistribution)
+		bool continue = ShowMessage("$obody_message_reset_distribution")
+
+		if continue
+			OBody.ResetDistribution()
+
+			ShowMessage("$obody_message_reset_distribution_success", false)
+		endif
+	elseif (option == setResetActor)
+		Actor actorInCrosshair = Game.GetCurrentCrosshairRef() as Actor
+
+		if actorInCrosshair == none
+			actorInCrosshair = OBody.PlayerRef
+		endif
+
+		if (actorInCrosshair)
+			OBodyNative.ResetActorOBodyMorphs(actorInCrosshair)
+			StorageUtil.UnsetStringValue(none, "obody_" + actorInCrosshair.GetActorBase().GetName() + "_preset")
+			StorageUtil.UnsetStringValue(none, "obody_" + actorInCrosshair.GetFormID() + "_preset")
+		endif
+
+		ShowMessage("$obody_message_reset_actor", false)
 	endif
 endEvent
 
@@ -81,5 +119,9 @@ event OnOptionHighlight(int option)
 		SetInfoText("$obody_highlight_genitals")
 	elseif (option == setPresetListKey)
 		SetInfoText("$obody_highlight_preset_key")
+	elseif (option == setResetBodyDistribution)
+		SetInfoText("$obody_highlight_reset_distribution")
+	elseif (option == setResetActor)
+		SetInfoText("$obody_highlight_reset_actor")
 	endif
 endEvent

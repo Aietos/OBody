@@ -34,3 +34,7 @@ Function SetORefit(Bool a_enabled) Global Native
 Function SetNippleRand(Bool a_enabled) Global Native
 
 Function SetGenitalRand(Bool a_enabled) Global Native
+
+Function SetDistributionKey(String a_distributionKey) Global Native
+
+Function ResetActorOBodyMorphs(Actor a_actor) Global Native

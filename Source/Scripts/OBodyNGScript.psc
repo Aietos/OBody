@@ -1,6 +1,4 @@
-ScriptName OBodyScript extends Quest
-
-import outils
+ScriptName OBodyNGScript extends Quest
 
 bool Property ORefitEnabled auto
 bool Property NippleRandEnabled auto
@@ -8,7 +6,7 @@ bool Property GenitalRandEnabled auto
 
 int Property PresetKey auto
 
-Actor PlayerRef
+Actor property PlayerRef auto
 
 Actor Property TargetOrPlayer
 	Actor Function Get()
@@ -23,37 +21,58 @@ Actor Property TargetOrPlayer
 EndProperty
 
 
-obodyscript Function Get() Global
-	return GetFormFromFile(0x1800, "OBody.esp") as OBodyScript
-EndFunction
-
-
 Event OnInit()
 	PlayerRef = Game.GetPlayer()
 	Int femaleSize = OBodyNative.GetFemaleDatabaseSize()
 	Int maleSize = OBodyNative.GetMaleDatabaseSize()
+
 	Debug.Notification("OBody Installed: [F: " + femaleSize + "] [M: " + maleSize + "]")
 
-	OUtils.getOStim().RegisterForGameLoadEvent(self)
-	RegisterForOUpdate(self)
+    Quest OBodyMCMOldQuest = Game.GetFormFromFile(0x00001D69, "OBody.esp") as Quest
+
+	if OBodyMCMOldQuest && OBodyMCMOldQuest.IsRunning()
+        Console("Stopping old MCM quest....")
+	 	OBodyMCMOldQuest.Stop()
+	endif
 
 	OnLoad()
 EndEvent
 
 
-Event OnActorGenerated(Actor akActor, string presetName)
-	string actorPresetKey = "obody_" + akActor.GetActorBase().GetName() + "_preset"
-	StorageUtil.SetStringValue(none, actorPresetKey, presetName)
-EndEvent
-
-
 Function OnLoad()
+    Console("Game loaded...")
+	PlayerRef = Game.GetPlayer()
+
 	RegisterForKey(PresetKey)
 	OBodyNative.SetORefit(ORefitEnabled)
 	OBodyNative.SetNippleRand(NippleRandEnabled)
 	OBodyNative.SetGenitalRand(GenitalRandEnabled)
 
+	string currentDistributionKey = StorageUtil.GetStringValue(none, "obody_ng_distribution_key", missing = "obody_processed")
+
+	Console("Current distribution key is " + currentDistributionKey)
+
+	OBodyNative.SetDistributionKey(currentDistributionKey)
+
 	OBodyNative.RegisterForOBodyEvent(self as Quest)
+EndFunction
+
+
+Event OnActorGenerated(Actor akActor, string presetName)
+	string actorPresetKey = "obody_" + akActor.GetFormID() + "_preset"
+	StorageUtil.SetStringValue(none, actorPresetKey, presetName)
+EndEvent
+
+
+Function ResetDistribution()
+	int distributionResetAmount = StorageUtil.GetIntValue(none, "obody_ng_distribution_reset_amount") + 1
+
+	string newDistributionKey = "obody_processed" + distributionResetAmount
+
+	StorageUtil.SetStringValue(none, "obody_ng_distribution_key", newDistributionKey)
+	StorageUtil.SetIntValue(none, "obody_ng_distribution_reset_amount", distributionResetAmount)
+
+	OBodyNative.SetDistributionKey(newDistributionKey)
 EndFunction
 
 
@@ -63,18 +82,13 @@ Function updatePresetKey(int previousKey)
 EndFunction
 
 
-int Function GetAPIVersion()
-	return 2
-endfunction 
-
-
-Event OnGameLoad()
-	OnLoad()
-EndEvent
+bool Function OBodyMenuOpen()
+	return (Utility.IsInMenuMode() || UI.IsMenuOpen("console")) || UI.IsMenuOpen("Crafting Menu") || UI.IsMenuOpen("Dialogue Menu")
+EndFunction
 
 
 Event OnKeyDown(int KeyPress)
-	If outils.MenuOpen()
+	If OBodyMenuOpen()
 		Return
 	EndIf
 
@@ -89,8 +103,17 @@ Function ShowPresetMenu(Actor act)
 	UIListMenu listMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
 	listMenu.ResetMenu()
 
-	string actorPresetKey = "obody_" + act.GetActorBase().GetName() + "_preset"
-	string currentPreset = StorageUtil.GetStringValue(none, actorPresetKey, missing = "Unknown Preset")
+	string actorPresetKey = "obody_" + act.GetFormID() + "_preset"
+	string currentPreset = StorageUtil.GetStringValue(none, actorPresetKey, missing = "")
+
+	if currentPreset == ""
+		actorPresetKey = "obody_" + act.GetActorBase().GetName() + "_preset"
+		currentPreset = StorageUtil.GetStringValue(none, actorPresetKey, missing = "")
+	endif
+
+	if currentPreset == ""
+		currentPreset = "Unknown/Unassigned Preset"
+	endif
 
 	string[] title = new String[4]
 	title[0] = "-   OBody   -"
@@ -99,14 +122,18 @@ Function ShowPresetMenu(Actor act)
 	title[3] = "-------------"
 
 	string[] presets = OBodyNative.GetAllPossiblePresets(act)
+
 	int l = presets.Length
+
 	Console((l) + " presets found")
 
 	int pagesNeeded
-	If l > 125
-		pagesNeeded = (l / 125) + 1
+
+	If l > 124
+		pagesNeeded = (l / 124) + 1
 
 		int i = 0
+
 		While i < pagesNeeded
 			listMenu.AddEntryItem("OBody set " + (i + 1))
 			i += 1
@@ -118,12 +145,12 @@ Function ShowPresetMenu(Actor act)
 			Return
 		EndIf
 
-		int startingPoint = num * 125
+		int startingPoint = num * 124
 		int endPoint
 		If num == (pagesNeeded - 1) ; last set
 			endPoint = presets.Length - 1
 		Else
-			endPoint = startingPoint + 124
+			endPoint = startingPoint + 123
 		EndIf
 
 		listMenu.ResetMenu()
@@ -153,4 +180,9 @@ Function ShowPresetMenu(Actor act)
 		ModEvent.PushForm(me, act)
 		ModEvent.Send(me)
 	EndIf
+EndFunction
+
+
+Function Console(String In)
+	MiscUtil.PrintConsole("OBody NG: " + In)
 EndFunction

@@ -1,2 +1,0 @@
-ScriptName OBodyPlayerAliasScript Extends ReferenceAlias
-
