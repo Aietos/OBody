@@ -3,6 +3,7 @@ ScriptName OBodyNGScript extends Quest
 bool Property ORefitEnabled auto
 bool Property NippleRandEnabled auto
 bool Property GenitalRandEnabled auto
+bool Property PerformanceMode auto
 
 int Property PresetKey auto
 
@@ -47,6 +48,7 @@ Function OnLoad()
 	OBodyNative.SetORefit(ORefitEnabled)
 	OBodyNative.SetNippleRand(NippleRandEnabled)
 	OBodyNative.SetGenitalRand(GenitalRandEnabled)
+	OBodyNative.setPerformanceMode(PerformanceMode)
 
 	string currentDistributionKey = StorageUtil.GetStringValue(none, "obody_ng_distribution_key", missing = "obody_processed")
 

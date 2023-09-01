@@ -7,6 +7,7 @@ int setGenitalRandomization
 int setPresetListKey
 int setResetBodyDistribution
 int setResetActor
+int setPerformanceMode
 
 
 OBodyNGScript property OBody auto
@@ -30,6 +31,10 @@ event OnPageReset(string page)
 	setORefit = AddToggleOption("$obody_option_refit", OBody.ORefitEnabled)
 	setNippleRandomization = AddToggleOption("$obody_option_nipple", OBody.NippleRandEnabled)
 	setGenitalRandomization = AddToggleOption("$obody_option_genitals", OBody.GenitalRandEnabled)
+	setPerformanceMode = AddToggleOption("$obody_option_performance_mode", OBody.PerformanceMode)
+
+	AddEmptyOption()
+
 	setPresetListKey = AddKeyMapOption("$obody_option_preset_key", OBody.PresetKey)
 
 	AddEmptyOption()
@@ -58,6 +63,18 @@ event OnOptionSelect(int option)
 	elseif (option == setGenitalRandomization)
 		OBody.GenitalRandEnabled = !OBody.GenitalRandEnabled
 		SetToggleOptionValue(setGenitalRandomization, OBody.GenitalRandEnabled)
+	elseif (option == setPerformanceMode)
+		if (OBody.PerformanceMode)
+			bool continue = ShowMessage("$obody_message_performance_mode")
+
+			if continue
+				OBody.PerformanceMode = false
+				SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
+			endif
+		else
+			OBody.PerformanceMode = true
+			SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
+		endif
 	elseif (option == setResetBodyDistribution)
 		bool continue = ShowMessage("$obody_message_reset_distribution")
 
@@ -119,6 +136,8 @@ event OnOptionHighlight(int option)
 		SetInfoText("$obody_highlight_genitals")
 	elseif (option == setPresetListKey)
 		SetInfoText("$obody_highlight_preset_key")
+	elseif (option == setPerformanceMode)
+		SetInfoText("$obody_highlight_performance_mode")
 	elseif (option == setResetBodyDistribution)
 		SetInfoText("$obody_highlight_reset_distribution")
 	elseif (option == setResetActor)
