@@ -18,7 +18,9 @@
         "ElderRace"
     ],
     "blacklistedOutfitsFromORefitFormID": {},
-    "blacklistedOutfitsFromORefit": [],
+    "blacklistedOutfitsFromORefit": [
+        "LS Force Naked"
+    ],
     "blacklistedOutfitsFromORefitPlugin": [],
     "outfitsForceRefitFormID": {},
     "outfitsForceRefit": [],
