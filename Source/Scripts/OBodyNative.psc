@@ -33,6 +33,8 @@ Int Function GetMaleDatabaseSize() Global Native
 
 Function SetORefit(Bool a_enabled) Global Native
 
+Function SetNippleSlidersORefitEnabled(Bool a_enabled) Global Native
+
 Function SetNippleRand(Bool a_enabled) Global Native
 
 Function SetGenitalRand(Bool a_enabled) Global Native

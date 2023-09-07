@@ -2,12 +2,14 @@ Scriptname OBodyNGMCMScript extends SKI_ConfigBase
 
 ; Settings
 int setORefit
+int setNippleSlidersORefitEnabled
 int setNippleRandomization
 int setGenitalRandomization
 int setPresetListKey
 int setResetBodyDistribution
 int setResetActor
 int setPerformanceMode
+int setForcePresetApplicationImmediate
 
 
 OBodyNGScript property OBody auto
@@ -27,11 +29,12 @@ endevent
 
 event OnPageReset(string page)
 	SetCursorFillMode(TOP_TO_BOTTOM)
-
 	setORefit = AddToggleOption("$obody_option_refit", OBody.ORefitEnabled)
+	setNippleSlidersORefitEnabled = AddToggleOption("$obody_option_nipple_sliders_orefit", OBody.NippleSlidersORefitEnabled)
 	setNippleRandomization = AddToggleOption("$obody_option_nipple", OBody.NippleRandEnabled)
 	setGenitalRandomization = AddToggleOption("$obody_option_genitals", OBody.GenitalRandEnabled)
 	setPerformanceMode = AddToggleOption("$obody_option_performance_mode", OBody.PerformanceMode)
+	setForcePresetApplicationImmediate = AddToggleOption("$obody_option_force_preset_application_immediate", OBody.ForcePresetApplicationImmediate)
 
 	AddEmptyOption()
 
@@ -56,12 +59,19 @@ endEvent
 event OnOptionSelect(int option)
 	if (option == setORefit)
 		OBody.ORefitEnabled = !OBody.ORefitEnabled
+		OBodyNative.SetORefit(OBody.ORefitEnabled)
 		SetToggleOptionValue(setORefit, OBody.ORefitEnabled)
+	elseif (option == setNippleSlidersORefitEnabled)
+		OBody.NippleSlidersORefitEnabled = !OBody.NippleSlidersORefitEnabled
+		OBodyNative.SetNippleSlidersORefitEnabled(OBody.NippleSlidersORefitEnabled)
+		SetToggleOptionValue(setNippleSlidersORefitEnabled, OBody.NippleSlidersORefitEnabled)
 	elseif (option == setNippleRandomization)
 		OBody.NippleRandEnabled = !OBody.NippleRandEnabled
+		OBodyNative.SetNippleRand(OBody.NippleRandEnabled)
 		SetToggleOptionValue(setNippleRandomization, OBody.NippleRandEnabled)
 	elseif (option == setGenitalRandomization)
 		OBody.GenitalRandEnabled = !OBody.GenitalRandEnabled
+		OBodyNative.SetGenitalRand(OBody.GenitalRandEnabled)
 		SetToggleOptionValue(setGenitalRandomization, OBody.GenitalRandEnabled)
 	elseif (option == setPerformanceMode)
 		if (OBody.PerformanceMode)
@@ -69,10 +79,12 @@ event OnOptionSelect(int option)
 
 			if continue
 				OBody.PerformanceMode = false
+				OBodyNative.setPerformanceMode(false)
 				SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
 			endif
 		else
 			OBody.PerformanceMode = true
+			OBodyNative.setPerformanceMode(true)
 			SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
 		endif
 	elseif (option == setResetBodyDistribution)
@@ -97,6 +109,9 @@ event OnOptionSelect(int option)
 		endif
 
 		ShowMessage("$obody_message_reset_actor", false)
+	elseif (option == setForcePresetApplicationImmediate)
+		OBody.ForcePresetApplicationImmediate = !OBody.ForcePresetApplicationImmediate
+		SetToggleOptionValue(setForcePresetApplicationImmediate, OBody.ForcePresetApplicationImmediate)
 	endif
 endEvent
 
@@ -142,5 +157,9 @@ event OnOptionHighlight(int option)
 		SetInfoText("$obody_highlight_reset_distribution")
 	elseif (option == setResetActor)
 		SetInfoText("$obody_highlight_reset_actor")
+	elseif (option == setNippleSlidersORefitEnabled)
+		SetInfoText("$obody_highlight_nipple_sliders_orefit")
+	elseif (option == setForcePresetApplicationImmediate)
+		SetInfoText("$obody_highlight_force_application_immediate")
 	endif
 endEvent

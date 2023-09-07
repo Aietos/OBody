@@ -1,9 +1,11 @@
 ScriptName OBodyNGScript extends Quest
 
 bool Property ORefitEnabled auto
+bool Property NippleSlidersORefitEnabled auto
 bool Property NippleRandEnabled auto
 bool Property GenitalRandEnabled auto
 bool Property PerformanceMode auto
+bool Property ForcePresetApplicationImmediate auto
 
 int Property PresetKey auto
 
@@ -46,6 +48,7 @@ Function OnLoad()
 
 	RegisterForKey(PresetKey)
 	OBodyNative.SetORefit(ORefitEnabled)
+	OBodyNative.SetNippleSlidersORefitEnabled(NippleSlidersORefitEnabled)
 	OBodyNative.SetNippleRand(NippleRandEnabled)
 	OBodyNative.SetGenitalRand(GenitalRandEnabled)
 	OBodyNative.setPerformanceMode(PerformanceMode)
@@ -181,6 +184,22 @@ Function ShowPresetMenu(Actor act)
 		int me = ModEvent.Create("obody_manualchange")
 		ModEvent.PushForm(me, act)
 		ModEvent.Send(me)
+
+		If ForcePresetApplicationImmediate
+			Form armorIn32 = act.GetWornForm(0x00000004)
+
+			If armorIn32 != none
+				Act.UnequipItem(armorIn32, false, true)
+				Utility.Wait(0.05)
+				Act.EquipItem(armorIn32, false, true)
+			Else
+				Form armorNude = Game.GetFormFromFile(0x00000D6C, "OBody.esp")
+				Act.EquipItem(armorNude, false, true)
+				Utility.Wait(0.05)
+				Act.UnequipItem(armorNude, false, true)
+				Act.Removeitem(armorNude, 1, true)
+			EndIf
+		EndIf
 	EndIf
 EndFunction
 
