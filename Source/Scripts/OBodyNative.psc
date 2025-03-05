@@ -19,9 +19,10 @@ Function MarkForReprocess(Actor a_actor) Global
 EndFunction
 
 Function RemoveClothesOverlay(Actor a_actor) Global
-	NiOverride.ClearBodyMorphKeys(a_actor, "OClothe")
-	NiOverride.ApplyOverrides(a_actor)
+	RemoveClothesOverlay_(a_actor)
 EndFunction
+
+Function RemoveClothesOverlay_(Actor a_actor) Global Native
 
 Function AddClothesOverlay(Actor a_actor) Global Native
 
