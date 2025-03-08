@@ -45,3 +45,5 @@ Function SetPerformanceMode(Bool a_enabled) Global Native
 Function SetDistributionKey(String a_distributionKey) Global Native
 
 Function ResetActorOBodyMorphs(Actor a_actor) Global Native
+
+Function ReapplyActorOBodyMorphs(Actor a_actor) Global Native
