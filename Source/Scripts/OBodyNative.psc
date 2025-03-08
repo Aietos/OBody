@@ -69,3 +69,11 @@ EndFunction
 ; Previous preset assignments stored via StorageUtil are not found by this function,
 ; use `GetPresetAssignedToActorExhaustively` unless you have a reason not to.
 String Function GetPresetAssignedToActor(Actor a_actor) Global Native
+
+; Unlike `ApplyPresetByName` this applies a preset only if a preset with the name
+; is found instead of falling back to a random preset.
+; Additionally, this can be used to remove the preset assignment from an actor
+; by supplying an empty string.
+; `a_doNotApplyMorphs` takes precedence over `a_forceImmediateApplicationOfMorphs`.
+; This returns whether the preset assignment succeeded or not.
+Bool Function AssignPresetToActor(Actor a_actor, String a_presetName, Bool a_forceImmediateApplicationOfMorphs = True, Bool a_doNotApplyMorphs = False) Global Native
