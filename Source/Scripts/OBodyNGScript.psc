@@ -64,6 +64,11 @@ EndFunction
 
 
 Event OnActorGenerated(Actor akActor, string presetName)
+	; Dear mod authors,
+	; This method of preset assignment storage has been obsoleted by OBody's native code.
+	; Please use `OBodyNative.GetPresetAssignedToActorExhaustively` and `OBodyNative.AssignPresetToActor`
+	; instead of manipulating this key directly.
+	; Thank you.
 	string actorPresetKey = "obody_" + akActor.GetFormID() + "_preset"
 	StorageUtil.SetStringValue(none, actorPresetKey, presetName)
 EndEvent
