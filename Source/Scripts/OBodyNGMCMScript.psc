@@ -103,7 +103,7 @@ event OnOptionSelect(int option)
 		endif
 
 		if (actorInCrosshair)
-			OBodyNative.ResetActorOBodyMorphs(actorInCrosshair)
+			OBodyNative.AssignPresetToActor(actorInCrosshair, "")
 			StorageUtil.UnsetStringValue(none, "obody_" + actorInCrosshair.GetActorBase().GetName() + "_preset")
 			StorageUtil.UnsetStringValue(none, "obody_" + actorInCrosshair.GetFormID() + "_preset")
 		endif
