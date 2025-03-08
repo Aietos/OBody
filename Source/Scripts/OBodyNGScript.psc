@@ -108,13 +108,7 @@ Function ShowPresetMenu(Actor act)
 	UIListMenu listMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
 	listMenu.ResetMenu()
 
-	string actorPresetKey = "obody_" + act.GetFormID() + "_preset"
-	string currentPreset = StorageUtil.GetStringValue(none, actorPresetKey, missing = "")
-
-	if currentPreset == ""
-		actorPresetKey = "obody_" + act.GetActorBase().GetName() + "_preset"
-		currentPreset = StorageUtil.GetStringValue(none, actorPresetKey, missing = "")
-	endif
+	string currentPreset = OBodyNative.GetPresetAssignedToActorExhaustively(act)
 
 	if currentPreset == ""
 		currentPreset = "Unknown/Unassigned Preset"
@@ -179,7 +173,7 @@ Function ShowPresetMenu(Actor act)
 		OBodyNative.ApplyPresetByName(act, result)
 		Console("Applying: " + result)
 
-		StorageUtil.SetStringValue(none, actorPresetKey, result)
+		StorageUtil.SetStringValue(none, "obody_" + act.GetFormID() + "_preset", result)
 
 		int me = ModEvent.Create("obody_manualchange")
 		ModEvent.PushForm(me, act)
