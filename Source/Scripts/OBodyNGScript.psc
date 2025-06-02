@@ -5,6 +5,7 @@ bool Property NippleSlidersORefitEnabled auto
 bool Property NippleRandEnabled auto
 bool Property GenitalRandEnabled auto
 bool Property PerformanceMode auto
+bool Property RespectfulMorphApplication auto
 bool Property ForcePresetApplicationImmediate auto
 
 int Property PresetKey auto
@@ -52,6 +53,7 @@ Function OnLoad()
 	OBodyNative.SetNippleRand(NippleRandEnabled)
 	OBodyNative.SetGenitalRand(GenitalRandEnabled)
 	OBodyNative.setPerformanceMode(PerformanceMode)
+	OBodyNative.SetRespectfulMorphApplication(RespectfulMorphApplication)
 
 	string currentDistributionKey = StorageUtil.GetStringValue(none, "obody_ng_distribution_key", missing = "obody_processed")
 

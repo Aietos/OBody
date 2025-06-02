@@ -9,6 +9,7 @@ int setPresetListKey
 int setResetBodyDistribution
 int setResetActor
 int setPerformanceMode
+int setRespectfulMorphApplication
 int setForcePresetApplicationImmediate
 
 
@@ -34,6 +35,7 @@ event OnPageReset(string page)
 	setNippleRandomization = AddToggleOption("$obody_option_nipple", OBody.NippleRandEnabled)
 	setGenitalRandomization = AddToggleOption("$obody_option_genitals", OBody.GenitalRandEnabled)
 	setPerformanceMode = AddToggleOption("$obody_option_performance_mode", OBody.PerformanceMode)
+	setRespectfulMorphApplication = AddToggleOption("$obody_option_respectful_morph_application", OBody.RespectfulMorphApplication)
 	setForcePresetApplicationImmediate = AddToggleOption("$obody_option_force_preset_application_immediate", OBody.ForcePresetApplicationImmediate)
 
 	AddEmptyOption()
@@ -87,6 +89,10 @@ event OnOptionSelect(int option)
 			OBodyNative.setPerformanceMode(true)
 			SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
 		endif
+	elseif (option == setRespectfulMorphApplication)
+		OBody.RespectfulMorphApplication = !OBody.RespectfulMorphApplication
+		OBodyNative.SetRespectfulMorphApplication(OBody.RespectfulMorphApplication)
+		SetToggleOptionValue(setRespectfulMorphApplication, OBody.RespectfulMorphApplication)
 	elseif (option == setResetBodyDistribution)
 		bool continue = ShowMessage("$obody_message_reset_distribution")
 
@@ -153,6 +159,8 @@ event OnOptionHighlight(int option)
 		SetInfoText("$obody_highlight_preset_key")
 	elseif (option == setPerformanceMode)
 		SetInfoText("$obody_highlight_performance_mode")
+	elseif (option == setRespectfulMorphApplication)
+		SetInfoText("$obody_highlight_respectful_morph_application")
 	elseif (option == setResetBodyDistribution)
 		SetInfoText("$obody_highlight_reset_distribution")
 	elseif (option == setResetActor)
