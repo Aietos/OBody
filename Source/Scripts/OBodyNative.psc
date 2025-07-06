@@ -19,9 +19,10 @@ Function MarkForReprocess(Actor a_actor) Global
 EndFunction
 
 Function RemoveClothesOverlay(Actor a_actor) Global
-	NiOverride.ClearBodyMorphKeys(a_actor, "OClothe")
-	NiOverride.ApplyOverrides(a_actor)
+	RemoveClothesOverlay_(a_actor)
 EndFunction
+
+Function RemoveClothesOverlay_(Actor a_actor) Global Native
 
 Function AddClothesOverlay(Actor a_actor) Global Native
 
@@ -46,3 +47,35 @@ Function SetRespectfulMorphApplication(Bool a_enabled) Global Native
 Function SetDistributionKey(String a_distributionKey) Global Native
 
 Function ResetActorOBodyMorphs(Actor a_actor) Global Native
+
+Function ReapplyActorOBodyMorphs(Actor a_actor) Global Native
+
+String Function GetPresetAssignedToActorExhaustively(Actor a_actor) Global
+	String presetName = GetPresetAssignedToActor(a_actor)
+
+	If presetName != ""
+		Return presetName
+	EndIf
+
+	presetName = StorageUtil.GetStringValue(none, "obody_" + a_actor.GetFormID() + "_preset", "")
+
+	If presetName != ""
+		Return presetName
+	EndIf
+
+	Return StorageUtil.GetStringValue(none, "obody_" + a_actor.GetActorBase().GetName() + "_preset", "")
+EndFunction
+
+; OBody began keeping track of the preset assigned to an actor via native code
+; starting after version 4.3.7.
+; Previous preset assignments stored via StorageUtil are not found by this function,
+; use `GetPresetAssignedToActorExhaustively` unless you have a reason not to.
+String Function GetPresetAssignedToActor(Actor a_actor) Global Native
+
+; Unlike `ApplyPresetByName` this applies a preset only if a preset with the name
+; is found instead of falling back to a random preset.
+; Additionally, this can be used to remove the preset assignment from an actor
+; by supplying an empty string.
+; `a_doNotApplyMorphs` takes precedence over `a_forceImmediateApplicationOfMorphs`.
+; This returns whether the preset assignment succeeded or not.
+Bool Function AssignPresetToActor(Actor a_actor, String a_presetName, Bool a_forceImmediateApplicationOfMorphs = True, Bool a_doNotApplyMorphs = False) Global Native
