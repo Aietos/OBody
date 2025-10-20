@@ -44,6 +44,8 @@ Function SetPerformanceMode(Bool a_enabled) Global Native
 
 Function SetRespectfulMorphApplication(Bool a_enabled) Global Native
 
+Function SetLegacyStorageUtilUsageEnabled(Bool a_enabled) Global Native
+
 Function SetDistributionKey(String a_distributionKey) Global Native
 
 Function ResetActorOBodyMorphs(Actor a_actor) Global Native

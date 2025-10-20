@@ -11,6 +11,7 @@ int setResetActor
 int setPerformanceMode
 int setRespectfulMorphApplication
 int setForcePresetApplicationImmediate
+int setEnableLegacyStorageUtilUsage
 
 
 OBodyNGScript property OBody auto
@@ -37,6 +38,7 @@ event OnPageReset(string page)
 	setPerformanceMode = AddToggleOption("$obody_option_performance_mode", OBody.PerformanceMode)
 	setRespectfulMorphApplication = AddToggleOption("$obody_option_respectful_morph_application", OBody.RespectfulMorphApplication)
 	setForcePresetApplicationImmediate = AddToggleOption("$obody_option_force_preset_application_immediate", OBody.ForcePresetApplicationImmediate)
+	setEnableLegacyStorageUtilUsage = AddToggleOption("$obody_option_legacy_storage_util_usage", OBody.LegacyStorageUtilUsageEnabled)
 
 	AddEmptyOption()
 
@@ -118,6 +120,10 @@ event OnOptionSelect(int option)
 	elseif (option == setForcePresetApplicationImmediate)
 		OBody.ForcePresetApplicationImmediate = !OBody.ForcePresetApplicationImmediate
 		SetToggleOptionValue(setForcePresetApplicationImmediate, OBody.ForcePresetApplicationImmediate)
+	elseif (option == setEnableLegacyStorageUtilUsage)
+		OBody.LegacyStorageUtilUsageEnabled = !OBody.LegacyStorageUtilUsageEnabled
+		OBodyNative.SetLegacyStorageUtilUsageEnabled(OBody.LegacyStorageUtilUsageEnabled)
+		SetToggleOptionValue(setEnableLegacyStorageUtilUsage, OBody.LegacyStorageUtilUsageEnabled)
 	endif
 endEvent
 
@@ -169,5 +175,7 @@ event OnOptionHighlight(int option)
 		SetInfoText("$obody_highlight_nipple_sliders_orefit")
 	elseif (option == setForcePresetApplicationImmediate)
 		SetInfoText("$obody_highlight_force_application_immediate")
+	elseif (option == setEnableLegacyStorageUtilUsage)
+		SetInfoText("$obody_highlight_legacy_storage_util_usage")
 	endif
 endEvent

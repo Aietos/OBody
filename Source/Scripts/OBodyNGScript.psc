@@ -7,6 +7,7 @@ bool Property GenitalRandEnabled auto
 bool Property PerformanceMode auto
 bool Property RespectfulMorphApplication auto
 bool Property ForcePresetApplicationImmediate auto
+bool Property LegacyStorageUtilUsageEnabled = true auto
 
 int Property PresetKey auto
 
@@ -54,6 +55,7 @@ Function OnLoad()
 	OBodyNative.SetGenitalRand(GenitalRandEnabled)
 	OBodyNative.setPerformanceMode(PerformanceMode)
 	OBodyNative.SetRespectfulMorphApplication(RespectfulMorphApplication)
+	OBodyNative.SetLegacyStorageUtilUsageEnabled(LegacyStorageUtilUsageEnabled)
 
 	string currentDistributionKey = StorageUtil.GetStringValue(none, "obody_ng_distribution_key", missing = "obody_processed")
 
@@ -71,8 +73,11 @@ Event OnActorGenerated(Actor akActor, string presetName)
 	; Please use `OBodyNative.GetPresetAssignedToActor` and `OBodyNative.AssignPresetToActor`
 	; instead of manipulating this key directly.
 	; Thank you.
-	string actorPresetKey = "obody_" + akActor.GetFormID() + "_preset"
-	StorageUtil.SetStringValue(none, actorPresetKey, presetName)
+
+	if LegacyStorageUtilUsageEnabled
+		string actorPresetKey = "obody_" + akActor.GetFormID() + "_preset"
+		StorageUtil.SetStringValue(none, actorPresetKey, presetName)
+	endif
 EndEvent
 
 
@@ -180,7 +185,9 @@ Function ShowPresetMenu(Actor act)
 		OBodyNative.ApplyPresetByName(act, result)
 		Console("Applying: " + result)
 
-		StorageUtil.SetStringValue(none, "obody_" + act.GetFormID() + "_preset", result)
+		if LegacyStorageUtilUsageEnabled
+			StorageUtil.SetStringValue(none, "obody_" + act.GetFormID() + "_preset", result)
+		endif
 
 		int me = ModEvent.Create("obody_manualchange")
 		ModEvent.PushForm(me, act)
