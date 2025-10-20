@@ -44,32 +44,16 @@ Function SetPerformanceMode(Bool a_enabled) Global Native
 
 Function SetRespectfulMorphApplication(Bool a_enabled) Global Native
 
+Function SetLegacyStorageUtilUsageEnabled(Bool a_enabled) Global Native
+
 Function SetDistributionKey(String a_distributionKey) Global Native
 
 Function ResetActorOBodyMorphs(Actor a_actor) Global Native
 
 Function ReapplyActorOBodyMorphs(Actor a_actor) Global Native
 
-String Function GetPresetAssignedToActorExhaustively(Actor a_actor) Global
-	String presetName = GetPresetAssignedToActor(a_actor)
-
-	If presetName != ""
-		Return presetName
-	EndIf
-
-	presetName = StorageUtil.GetStringValue(none, "obody_" + a_actor.GetFormID() + "_preset", "")
-
-	If presetName != ""
-		Return presetName
-	EndIf
-
-	Return StorageUtil.GetStringValue(none, "obody_" + a_actor.GetActorBase().GetName() + "_preset", "")
-EndFunction
-
 ; OBody began keeping track of the preset assigned to an actor via native code
 ; starting after version 4.3.7.
-; Previous preset assignments stored via StorageUtil are not found by this function,
-; use `GetPresetAssignedToActorExhaustively` unless you have a reason not to.
 String Function GetPresetAssignedToActor(Actor a_actor) Global Native
 
 ; Unlike `ApplyPresetByName` this applies a preset only if a preset with the name
