@@ -68,7 +68,7 @@ EndFunction
 Event OnActorGenerated(Actor akActor, string presetName)
 	; Dear mod authors,
 	; This method of preset assignment storage has been obsoleted by OBody's native code.
-	; Please use `OBodyNative.GetPresetAssignedToActorExhaustively` and `OBodyNative.AssignPresetToActor`
+	; Please use `OBodyNative.GetPresetAssignedToActor` and `OBodyNative.AssignPresetToActor`
 	; instead of manipulating this key directly.
 	; Thank you.
 	string actorPresetKey = "obody_" + akActor.GetFormID() + "_preset"
@@ -115,7 +115,7 @@ Function ShowPresetMenu(Actor act)
 	UIListMenu listMenu = UIExtensions.GetMenu("UIListMenu") as UIListMenu
 	listMenu.ResetMenu()
 
-	string currentPreset = OBodyNative.GetPresetAssignedToActorExhaustively(act)
+	string currentPreset = OBodyNative.GetPresetAssignedToActor(act)
 
 	if currentPreset == ""
 		currentPreset = "Unknown/Unassigned Preset"
