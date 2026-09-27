@@ -8,12 +8,11 @@
     Zip="true">
     <Variables>
         <Variable Name="ModName" Value="OBody NG"/>
-        <Variable Name="Version" Value="4.2.0"/>
+        <Variable Name="Version" Value="5.0.0"/>
         <Variable Name="MyProject" Value="."/>
         <Variable Name="Dist" Value="..\dist"/>
     </Variables>
     <Imports>
-        <Import>Dependencies</Import>
         <Import>@MyProject\Source\Scripts</Import>
         <Import>https://github.com/MrOctopus/nl_online/tree/main/jcontainersse/source</Import>
         <Import>https://github.com/eeveelo/PapyrusUtil/tree/master/Scripts/Source</Import>

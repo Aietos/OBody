@@ -42,8 +42,6 @@ Function SetGenitalRand(Bool a_enabled) Global Native
 
 Function SetPerformanceMode(Bool a_enabled) Global Native
 
-Function SetRespectfulMorphApplication(Bool a_enabled) Global Native
-
 Function SetLegacyStorageUtilUsageEnabled(Bool a_enabled) Global Native
 
 Function SetDistributionKey(String a_distributionKey) Global Native
@@ -63,3 +61,5 @@ String Function GetPresetAssignedToActor(Actor a_actor) Global Native
 ; `a_doNotApplyMorphs` takes precedence over `a_forceImmediateApplicationOfMorphs`.
 ; This returns whether the preset assignment succeeded or not.
 Bool Function AssignPresetToActor(Actor a_actor, String a_presetName, Bool a_forceImmediateApplicationOfMorphs = True, Bool a_doNotApplyMorphs = False) Global Native
+
+Function UpdatePresetMenuKey(int a_key) Global Native

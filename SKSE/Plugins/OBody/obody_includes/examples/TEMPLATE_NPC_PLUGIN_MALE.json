@@ -1,0 +1,8 @@
+{
+	"npcPluginMale": {
+		"ExamplePlugin.esp": [
+			"bodyslide definition 1",
+			"bodyslide definition 2"
+		]
+	}
+}

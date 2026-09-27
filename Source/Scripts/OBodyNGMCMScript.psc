@@ -7,9 +7,7 @@ int setNippleRandomization
 int setGenitalRandomization
 int setPresetListKey
 int setResetBodyDistribution
-int setResetActor
 int setPerformanceMode
-int setRespectfulMorphApplication
 int setForcePresetApplicationImmediate
 int setEnableLegacyStorageUtilUsage
 
@@ -36,7 +34,6 @@ event OnPageReset(string page)
 	setNippleRandomization = AddToggleOption("$obody_option_nipple", OBody.NippleRandEnabled)
 	setGenitalRandomization = AddToggleOption("$obody_option_genitals", OBody.GenitalRandEnabled)
 	setPerformanceMode = AddToggleOption("$obody_option_performance_mode", OBody.PerformanceMode)
-	setRespectfulMorphApplication = AddToggleOption("$obody_option_respectful_morph_application", OBody.RespectfulMorphApplication)
 	setForcePresetApplicationImmediate = AddToggleOption("$obody_option_force_preset_application_immediate", OBody.ForcePresetApplicationImmediate)
 	setEnableLegacyStorageUtilUsage = AddToggleOption("$obody_option_legacy_storage_util_usage", OBody.LegacyStorageUtilUsageEnabled)
 
@@ -55,8 +52,6 @@ event OnPageReset(string page)
 	if actorInCrosshair == none
 		actorInCrosshair = OBody.PlayerRef
 	endif
-
-	setResetActor = AddTextOption("$obody_option_reset_actor", actorInCrosshair.GetActorBase().GetName())
 endEvent
 
 
@@ -78,23 +73,19 @@ event OnOptionSelect(int option)
 		OBodyNative.SetGenitalRand(OBody.GenitalRandEnabled)
 		SetToggleOptionValue(setGenitalRandomization, OBody.GenitalRandEnabled)
 	elseif (option == setPerformanceMode)
-		if (OBody.PerformanceMode)
+		if (!OBody.PerformanceMode)
 			bool continue = ShowMessage("$obody_message_performance_mode")
 
 			if continue
-				OBody.PerformanceMode = false
-				OBodyNative.setPerformanceMode(false)
+				OBody.PerformanceMode = true
+				OBodyNative.setPerformanceMode(true)
 				SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
 			endif
 		else
-			OBody.PerformanceMode = true
-			OBodyNative.setPerformanceMode(true)
+			OBody.PerformanceMode = false
+			OBodyNative.setPerformanceMode(false)
 			SetToggleOptionValue(setPerformanceMode, OBody.PerformanceMode)
 		endif
-	elseif (option == setRespectfulMorphApplication)
-		OBody.RespectfulMorphApplication = !OBody.RespectfulMorphApplication
-		OBodyNative.SetRespectfulMorphApplication(OBody.RespectfulMorphApplication)
-		SetToggleOptionValue(setRespectfulMorphApplication, OBody.RespectfulMorphApplication)
 	elseif (option == setResetBodyDistribution)
 		bool continue = ShowMessage("$obody_message_reset_distribution")
 
@@ -103,20 +94,6 @@ event OnOptionSelect(int option)
 
 			ShowMessage("$obody_message_reset_distribution_success", false)
 		endif
-	elseif (option == setResetActor)
-		Actor actorInCrosshair = Game.GetCurrentCrosshairRef() as Actor
-
-		if actorInCrosshair == none
-			actorInCrosshair = OBody.PlayerRef
-		endif
-
-		if (actorInCrosshair)
-			OBodyNative.AssignPresetToActor(actorInCrosshair, "")
-			StorageUtil.UnsetStringValue(none, "obody_" + actorInCrosshair.GetActorBase().GetName() + "_preset")
-			StorageUtil.UnsetStringValue(none, "obody_" + actorInCrosshair.GetFormID() + "_preset")
-		endif
-
-		ShowMessage("$obody_message_reset_actor", false)
 	elseif (option == setForcePresetApplicationImmediate)
 		OBody.ForcePresetApplicationImmediate = !OBody.ForcePresetApplicationImmediate
 		SetToggleOptionValue(setForcePresetApplicationImmediate, OBody.ForcePresetApplicationImmediate)
@@ -148,7 +125,7 @@ event OnOptionKeyMapChange(int option, int keyCode, string conflictControl, stri
 			int previousKey = OBody.PresetKey
 			OBody.PresetKey = keyCode
 			SetKeymapOptionValue(setPresetListKey, keyCode)
-			OBody.updatePresetKey(previousKey)
+			OBodyNative.UpdatePresetMenuKey(keyCode)
 		endIf
 	EndIf
 endEvent
@@ -165,12 +142,8 @@ event OnOptionHighlight(int option)
 		SetInfoText("$obody_highlight_preset_key")
 	elseif (option == setPerformanceMode)
 		SetInfoText("$obody_highlight_performance_mode")
-	elseif (option == setRespectfulMorphApplication)
-		SetInfoText("$obody_highlight_respectful_morph_application")
 	elseif (option == setResetBodyDistribution)
 		SetInfoText("$obody_highlight_reset_distribution")
-	elseif (option == setResetActor)
-		SetInfoText("$obody_highlight_reset_actor")
 	elseif (option == setNippleSlidersORefitEnabled)
 		SetInfoText("$obody_highlight_nipple_sliders_orefit")
 	elseif (option == setForcePresetApplicationImmediate)
