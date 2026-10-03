@@ -1,35 +1,42 @@
 {
-    "npcFormID": {},
-    "npc": {},
-    "factionFemale": {},
-    "factionMale": {},
-    "npcPluginFemale": {},
-    "npcPluginMale": {},
-    "raceFemale": {},
-    "raceMale": {},
-    "blacklistedNpcs": [],
-    "blacklistedNpcsFormID": {},
-    "blacklistedNpcsPluginFemale": [],
-    "blacklistedNpcsPluginMale": [],
-    "blacklistedRacesFemale": [
-        "ElderRace"
-    ],
-    "blacklistedRacesMale": [
-        "ElderRace"
-    ],
-    "blacklistedOutfitsFromORefitFormID": {},
-    "blacklistedOutfitsFromORefit": [
-        "LS Force Naked",
-        "OBody Nude 32"
-    ],
-    "blacklistedOutfitsFromORefitPlugin": [],
-    "outfitsForceRefitFormID": {},
-    "outfitsForceRefit": [],
-    "blacklistedPresetsFromRandomDistribution": [
-        "- Zeroed Sliders -",
-        "-Zeroed Sliders-",
-        "Zeroed Sliders",
-        "HIMBO Zero for OBody"
-    ],
-    "blacklistedPresetsShowInOBodyMenu": true
+  "npcFormID": {},
+  "npc": {},
+  "factionFemale": {},
+  "factionMale": {},
+  "npcPluginFemale": {},
+  "npcPluginMale": {},
+  "raceFemale": {},
+  "raceMale": {},
+  "classFemale": {},
+  "classMale": {},
+  "blacklistedNpcs": [],
+  "blacklistedNpcsFormID": {},
+  "blacklistedNpcsPluginFemale": [],
+  "blacklistedNpcsPluginMale": [],
+  "blacklistedClassesFemale": [],
+  "blacklistedClassesMale": [],
+  "blacklistedRacesFemale": [
+    "ElderRace"
+  ],
+  "blacklistedRacesMale": [
+    "ElderRace"
+  ],
+  "blacklistedOutfitsFromORefitFormID": {},
+  "blacklistedOutfitsFromORefit": [
+    "LS Force Naked",
+    "OBody Nude 32"
+  ],
+  "blacklistedOutfitsFromORefitPlugin": [],
+  "outfitsForceRefitFormID": {},
+  "outfitsForceRefit": [],
+  "blacklistedPresetsFromRandomDistribution": [
+    "- Zeroed Sliders -",
+    "-Zeroed Sliders-",
+    "Zeroed Sliders",
+    "HIMBO Zero for OBody"
+  ],
+  "refitOutfitPresetsFemale": {},
+  "refitOutfitPresetsMale": {},
+  "blacklistedPresetsShowInOBodyMenu": true,
+  "disablePresetDistribution": "none"
 }
