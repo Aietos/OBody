@@ -38,6 +38,7 @@ Function OnLoad()
 	OBodyNative.setPerformanceMode(PerformanceMode)
 	OBodyNative.SetLegacyStorageUtilUsageEnabled(LegacyStorageUtilUsageEnabled)
 	OBodyNative.UpdatePresetMenuKey(PresetKey)
+	OBodyNative.SetForcePresetApplicationImmediate(ForcePresetApplicationImmediate)
 
 	string currentDistributionKey = StorageUtil.GetStringValue(none, "obody_ng_distribution_key", missing = "obody_processed")
 
@@ -60,6 +61,30 @@ Event OnActorGenerated(Actor akActor, string presetName)
 		string actorPresetKey = "obody_" + akActor.GetFormID() + "_preset"
 		StorageUtil.SetStringValue(none, actorPresetKey, presetName)
 	endif
+EndEvent
+
+
+Event OnActorPresetChangedWithoutGeneration(Actor akActor, Int aiFlags, String asPresetName)
+    If !akActor
+        Return
+    EndIf
+
+    If ForcePresetApplicationImmediate
+		Form armorIn32 = akActor.GetWornForm(0x00000004)
+
+		Utility.Wait(0.05)
+		If armorIn32 != none
+			akActor.UnequipItem(armorIn32, false, true)
+			Utility.Wait(0.05)
+			akActor.EquipItem(armorIn32, false, true)
+		Else
+			Form armorNude = Game.GetFormFromFile(0x00000D6C, "OBody.esp")
+			akActor.EquipItem(armorNude, false, true)
+			Utility.Wait(0.05)
+			akActor.UnequipItem(armorNude, false, true)
+			akActor.Removeitem(armorNude, 1, true)
+		EndIf
+	EndIf
 EndEvent
 
 

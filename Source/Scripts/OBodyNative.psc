@@ -63,3 +63,5 @@ String Function GetPresetAssignedToActor(Actor a_actor) Global Native
 Bool Function AssignPresetToActor(Actor a_actor, String a_presetName, Bool a_forceImmediateApplicationOfMorphs = True, Bool a_doNotApplyMorphs = False) Global Native
 
 Function UpdatePresetMenuKey(int a_key) Global Native
+
+Function SetForcePresetApplicationImmediate(bool a_enabled) Global Native
