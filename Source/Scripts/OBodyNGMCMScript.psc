@@ -97,6 +97,7 @@ event OnOptionSelect(int option)
 	elseif (option == setForcePresetApplicationImmediate)
 		OBody.ForcePresetApplicationImmediate = !OBody.ForcePresetApplicationImmediate
 		SetToggleOptionValue(setForcePresetApplicationImmediate, OBody.ForcePresetApplicationImmediate)
+		OBodyNative.SetForcePresetApplicationImmediate(OBody.ForcePresetApplicationImmediate)
 	elseif (option == setEnableLegacyStorageUtilUsage)
 		OBody.LegacyStorageUtilUsageEnabled = !OBody.LegacyStorageUtilUsageEnabled
 		OBodyNative.SetLegacyStorageUtilUsageEnabled(OBody.LegacyStorageUtilUsageEnabled)
