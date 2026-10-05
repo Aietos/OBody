@@ -110,7 +110,7 @@ event OnOptionKeyMapChange(int option, int keyCode, string conflictControl, stri
 	If (option == setPresetListKey)
 		bool continue = true
 
-		if (conflictControl != "")
+		if (keyCode != 1 && conflictControl != "")
 			string msg
 
 			if (conflictName != "")
@@ -123,7 +123,6 @@ event OnOptionKeyMapChange(int option, int keyCode, string conflictControl, stri
 		endIf
 
 		if (continue)
-			int previousKey = OBody.PresetKey
 			OBody.PresetKey = keyCode
 			SetKeymapOptionValue(setPresetListKey, keyCode)
 			OBodyNative.UpdatePresetMenuKey(keyCode)
