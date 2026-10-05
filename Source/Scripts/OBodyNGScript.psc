@@ -64,7 +64,7 @@ Event OnActorGenerated(Actor akActor, string presetName)
 EndEvent
 
 
-Event OnActorPresetChangedWithoutGeneration(Actor akActor, Int aiFlags, String asPresetName)
+Event OnActorPresetChangedWithoutGeneration(Actor akActor, String asPresetName)
     If !akActor
         Return
     EndIf
@@ -72,15 +72,14 @@ Event OnActorPresetChangedWithoutGeneration(Actor akActor, Int aiFlags, String a
     If ForcePresetApplicationImmediate
 		Form armorIn32 = akActor.GetWornForm(0x00000004)
 
-		Utility.Wait(0.05)
 		If armorIn32 != none
 			akActor.UnequipItem(armorIn32, false, true)
-			Utility.Wait(0.05)
+			Utility.Wait(0.01)
 			akActor.EquipItem(armorIn32, false, true)
 		Else
 			Form armorNude = Game.GetFormFromFile(0x00000D6C, "OBody.esp")
 			akActor.EquipItem(armorNude, false, true)
-			Utility.Wait(0.05)
+			Utility.Wait(0.01)
 			akActor.UnequipItem(armorNude, false, true)
 			akActor.Removeitem(armorNude, 1, true)
 		EndIf
